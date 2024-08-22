@@ -1,0 +1,30 @@
+/* Reset the default margin and padding */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Disable scrollbars */
+  height: 100vh; /* Make sure the body takes up the full height of the viewport */
+}
+
+/* Ensure canvas elements are displayed correctly */
+canvas {
+  display: block; /* Remove gaps below the canvas */
+  width: 100vw; /* Make canvas take the full width of the viewport */
+  height: 100vh; /* Make canvas take the full height of the viewport */
+}
+
+/* Style for the main canvas */
+.main-canvas {
+  z-index: 0; /* Set the z-index for layering */
+  position: absolute; /* Absolute positioning to fill the viewport */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+}
+
+/* Style for the palette canvas */
+.palette-canvas {
+  z-index: 1; /* Set the z-index for layering above the main canvas */
+  position: absolute; /* Absolute positioning to fill the top section */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+}
