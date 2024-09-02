@@ -6,29 +6,37 @@
 let mainCanvas;
 let paletteCanvas;
 let slider;
-// let palette = [];
+let circle_slider;
 
 function setup() {
   // Create the main canvas (at the back)
-  mainCanvas = createCanvas(300, 300);
+  mainCanvas = createCanvas(500, 500);
   mainCanvas.class('main-canvas');  // Assign the CSS class
 
   // Create the palette canvas (at the front)
   paletteCanvas = createGraphics(windowWidth, windowHeight / 6);
   paletteCanvas.class('palette-canvas');  // Assign the CSS class
   let palette = generateColorPalette(255)
-  drawPalette(palette)
-  paletteCanvas.position(4, 400)
+  drawPalette(palette) // @TODO Figure out how to draw palette outside of main canvas
+  paletteCanvas.position(0, mainCanvas.height)
 
   // Create slider to adjust standard deviation
   slider = createSlider(0, 255);
-  slider.position(4, 310);
-  slider.size(windowWidth/2);
+  slider.position(0, mainCanvas.height + 10);
+  slider.size(mainCanvas.width);
+
+  // Create slider to adjust circle size
+  circle_slider = createSlider(0, 100)
+  circle_slider.position(0, slider.y + 20)
+  circle_slider.size(slider.width)
 }
 
 function draw() {
   // use slider to adjust standard deviation for splatter
   let sd = slider.value()
+
+  // use slider to adjust circle size
+  let circle_size = circle_slider.value()
 
   // Circle's coordinates using a normal distrubution
   let x = randomGaussian(width/2, sd);
@@ -39,7 +47,7 @@ function draw() {
   // // draw circle
   noStroke()
   fill(generateRandomColor(128, sd), 30)
-  circle(x, y, 100) 
+  circle(x, y, circle_size) 
 
   // drawPalette(palette)
 }
@@ -74,7 +82,7 @@ function drawPalette(palette) {
   for (let i = 0; i < palette.length; i++) {
     fill(palette[i])
     noStroke()
-    rect(i * rectWidth, 280, rectWidth, height / 6);
+    rect(i * rectWidth, mainCanvas.height - (height / 10), rectWidth, height / 10);
   }
 }
 
