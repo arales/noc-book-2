@@ -33,23 +33,28 @@ class Walker {
 
   step() {
     const choice = random(1);
-    let stepSize = randomGaussian(10, 15)
+    let xStep = randomGaussian(0, 15)
+    let yStep = randomGaussian(0, 15)
+
+    if (this.x + xStep > width)
+      this.x -= xStep
+    if (this.x - xStep < 0)
+      this.x += xStep
+    if (this.y + yStep > height)
+      this.y -= height
+    if (this.y - yStep < 0)
+      this.y += yStep   
     
     // @TODO update so steps cannot go out side of canvas
-    if (choice < 0.25) {
-      this.x += stepSize
-      this.y += stepSize
-      
-    } else if (choice < 0.5) {
-      this.x += stepSize
-      this.y -= stepSize
+    // Check if step will be outside of the canvas window
+    if (this.x + xStep < width && this.y + yStep < height && this.x - xStep > 0 && this.y - yStep > 0) {
+        this.x += xStep
+        this.y += yStep
 
-    } else if (choice < 0.75 ) {
-      this.x -= stepSize
-      this.x += stepSize
-    } else {
-      this.x -= stepSize
-      this.y -= stepSize
+        console.log(`innna bounds - X: ${this.x}, Y: ${this.y}, xStep: ${xStep}, yStep: ${yStep}`)
+
+    } else { // recurse until step is within window 
+      console.log(`outta bounds - X: ${this.x}, Y: ${this.y}, xStep: ${xStep}, yStep: ${yStep}`)
     }
   }
 }
