@@ -33,7 +33,12 @@ class Walker {
 
   step() {
     let xStep = randomGaussian(0, 15);
+    if (random([false,  true]))
+      xStep *= -1
+
     let yStep = randomGaussian(0, 15);
+    if (random([false,  true]))
+      yStep *= -1    
   
     // Adjust xStep to keep the movement within bounds
     if (this.x + xStep > width) {
