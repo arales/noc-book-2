@@ -18,15 +18,16 @@ function draw() {
 class Walker {
   constructor() {
     this.x = width / 2;
-    this.y = height / 2;
-    // this.oldx = this.x;
-    // this.oldy = this.y;    
+    this.y = height / 2; 
     this.tx = 0;
     this.ty = 10000;
+    this.tr = 20000
+    this.tg = 30000;
+    this.tb = 40000;
   }
 
   step() {
-    let xStep = map(noise(this.tx), 0, 1, -2, 2);
+    let xStep = map(noise(this.tx), 0, 1, -1, 1);
     let yStep = map(noise(this.ty), 0, 1, -1, 1);
 
     // Adjust xStep to keep the movement within bounds
@@ -51,19 +52,19 @@ class Walker {
     //{!2} Move forward through “time.”
     this.tx += 0.01;
     this.ty += 0.01;
+    this.tr += 0.01;
+    this.tg += 0.01;
+    this.tb += 0.01;    
   }
 
   show() {
     strokeWeight(0.2);
     fill(255);
-    let rNoise = map(noise(this.tx), 0, 1, 0, 100)
-    let gNoise = map(noise(this.tx), 0, 1, 100, 200)
-    let bNoise = map(noise(this.tx), 0, 1, 200, 255)
+    let rNoise = map(noise(this.tr), 0, 1, 0, 255)
+    let gNoise = map(noise(this.tg), 0, 1, 0, 255)
+    let bNoise = map(noise(this.tb), 0, 1, 0, 255)
     // fill(rNoise, gNoise, bNoise);
     stroke(rNoise, gNoise, bNoise);
-    // stroke(0);
     circle(this.x, this.y, 40);
-    // this.oldx = this.x;
-    // this.oldy = this.y;
   }
 }
