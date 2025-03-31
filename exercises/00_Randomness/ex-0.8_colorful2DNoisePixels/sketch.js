@@ -12,9 +12,15 @@ function setup() {
   * Seems to have something to do with Retina display pixel dimensions for mac?
   */
   pixelDensity(1)
+  createControls(260)
 }
 
 function draw() {
+  //map slider values to variables
+  noiseDetail(octavesSlider.value(), falloffSlider.value());
+  const xoffValue = xoffSlider.value();
+  const yoffValue = yoffSlider.value();
+
   loadPixels()
 
   let xoff = 0.0
@@ -24,9 +30,6 @@ function draw() {
     for (let y = 0; y < height; y++) {
       let index = (x + y * width) * 4;
       // A perlin noise brightness
-      let octaves = 15
-      let falloff = 0.6
-      noiseDetail(octaves, falloff) // adjusts character of noise produced by noise() - params: noiseDetail(octaves, falloff)
       let bright = map(noise(xoff, yoff), 0, 1, 0, 255)
       // Set the red, green, and blue values.
       let rShift = 10000; let gShift = 20000; let bShift = 30000; // Color shifts along the noise space to allow for different color values in noise calculations.
@@ -39,13 +42,60 @@ function draw() {
       pixels[index + 2] = b;
       // Set the alpha value to 255 (no transparency).
       pixels[index + 3] = 255;
-      // console.log(`Pixels: [${pixels[0]}, ${pixels[1]}, ${pixels[2]}, ${pixels[3]}]\n`)
 
-      yoff += 0.01  // increment yoff for a smoother noise value
+      yoff += yoffValue  // increment yoff for a smoother noise value
     }
-    xoff += 0.01 // incrementing for a smoother noise value
+    xoff += xoffValue // incrementing for a smoother noise value
   }
   updatePixels()  
 }
 
 /* Helper Functions */
+function createControls(ypos) {
+  let xpos = 0;
+  
+  cpTitle = createP("Perlin Noise");
+  cpTitle.position(xpos, ypos-30);
+  cpTitle.style("font-size", "14pt");
+  cpTitle.style("font-weight", "bold");
+  xpos += 120;
+  
+  xpos =0;
+  octavesTitle = createP("Octaves");
+  octavesTitle.position(xpos, ypos);
+  xpos += 60;
+
+  octavesSlider = createSlider(1, 10, 4, 1);
+  octavesSlider.position(xpos, ypos);
+  octavesSlider.size(80);
+  xpos += 100;
+  
+  falloffTitle = createP("Falloff");
+  falloffTitle.position(xpos, ypos);
+  xpos += 50;
+
+  falloffSlider = createSlider(0, 1, 0.5, 0);
+  falloffSlider.position(xpos, ypos);
+  falloffSlider.size(80);
+  xpos += 100;
+  
+  xoffTitle = createP("xoff");
+  xoffTitle.position(xpos, ypos);
+  xpos += 30;
+
+  xoffSlider = createSlider(0.01, 0.1, 0.01, 0.01);
+  xoffSlider.position(xpos, ypos);
+  xoffSlider.size(80);
+  xpos += 100;
+  
+  yoffTitle = createP("yoff");
+  yoffTitle.position(xpos, ypos);
+  xpos += 30;
+
+  yoffSlider = createSlider(0.01,0.1,0.01, 0.01);
+  yoffSlider.position(xpos, ypos);
+  yoffSlider.size(80);
+  xpos += 100;
+
+
+}
